@@ -144,22 +144,12 @@ const Carts = () => {
             <div className="flex w-full">
               {cartItem.length === 0 ? null : (
                 <>
-                  <button
-                    className="buy__btn inline-block w-3/6 mx-auto"
-                    onClick={handleCompleteOrder}>
-                    Complete Order
-                  </button>
-                </>
-              )}
-              {/* {isCartEmpty ? (
-                <button className="buy__btn inline-block w-3/6 mx-auto" onClick={handleCompleteOrder}>
-                  Complete Order
-                </button>
-              ) : (
-                <button className="buy__btn inline-block w-3/6 mx-auto">
+                  <button className="buy__btn inline-block w-3/6 mx-auto">
                   <Link to="/billing">Complete Order</Link>
                 </button>
-              )} */}
+                </>
+              )}
+              
               <ReactModal
                 isOpen={isModalOpen}
                 onRequestClose={() => setIsModalOpen(false)}

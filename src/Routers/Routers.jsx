@@ -35,6 +35,8 @@ const Routers = () => {
       <Route element={<ProtectedRoute />}>
 
         <Route path="carts" element={<Carts />} />
+      <Route path="billing" element={<Billing />} />
+      <Route path="/checkout" element={<Checkout />} />
         
       </Route>
       {/* <Route path="header" element={<Header />} />
@@ -46,8 +48,6 @@ const Routers = () => {
       <Route path="signUp" element={<SignUp />} />
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
-      <Route path="billing" element={<Billing />} />
-      <Route path="/checkout" element={<Checkout />} />
       <Route path="order" element={<Order />} />
       <Route path="product/:id" element={<ProductsDetails />} />
       <Route path="dashboard" element={<Dashboard />} />
