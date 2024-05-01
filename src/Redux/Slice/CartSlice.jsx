@@ -45,9 +45,9 @@ const cartSlice = createSlice({
       );
 
       // Log the total quantity, cart items, and new item for debugging
-      console.log(state.totalQuantity);
-      console.log(state.cartItem);
-      console.log(newItem);
+      // console.log(state.totalQuantity);
+      // console.log(state.cartItem);
+      // console.log(newItem);
     },
     // Reducer function to delete an item from the cart
     deleteItem: (state, action) => {

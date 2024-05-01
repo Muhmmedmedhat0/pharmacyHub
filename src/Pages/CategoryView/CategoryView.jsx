@@ -16,7 +16,7 @@ const CategoryView = ({ categoryId, categoryName, ViewComponent }) => {
       `http://e-pharmacy.runasp.net/api/product?CategoryId=${categoryId}`
     );
     const Product = await response.json();
-    console.log(Product.data);
+    // console.log(Product.data);
     const ProductData = Product.data.map((item) => {
       return {
         idProduct: item.id,
@@ -28,7 +28,7 @@ const CategoryView = ({ categoryId, categoryName, ViewComponent }) => {
       };
     });
     setProducts(ProductData);
-    console.log(ProductData);
+    // console.log(ProductData);
   }
 
   return (

@@ -22,6 +22,7 @@ import OurTeam from "../Pages/OurTeam/OurTeam";
 import Profile from "../Pages/Profile/Profile";
 import Order from "../Pages/Order/Order";
 import CategoryView from "../Pages/CategoryView/CategoryView";
+import ProtectedRoute from "./ProtectedRoute";
 
 const Routers = () => {
   return (
@@ -29,15 +30,20 @@ const Routers = () => {
       {/* Redirect from root to /home */}
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="home" element={<Home />} />
-      <Route path="header" element={<Header />} />
-      <Route path="footer" element={<Footer />} />
+      <Route path="logIn" element={<LogIn />} />
+
+      <Route element={<ProtectedRoute />}>
+
+        <Route path="carts" element={<Carts />} />
+        
+      </Route>
+      {/* <Route path="header" element={<Header />} />
+      <Route path="footer" element={<Footer />} /> */}
       <Route path="cares" element={<Cares />} />
       <Route path="medicine" element={<Medicine />} />
       <Route path="vitamins" element={<Vitamins />} />
       <Route path="equipments" element={<Equipments />} />
       <Route path="signUp" element={<SignUp />} />
-      <Route path="logIn" element={<LogIn />} />
-      <Route path="carts" element={<Carts />} />
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
       <Route path="billing" element={<Billing />} />

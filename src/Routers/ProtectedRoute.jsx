@@ -1,16 +1,16 @@
-// ProtectedRoute.js
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
-import useAuth from "../Custom-hooks/UseAuth";
-
-const ProtectedRoute = ({ path, redirectTo, children }) => {
-  const currentUser = useAuth(); // Retrieve currentUser from the hook
-
-  return currentUser ? (
-    <Route path={path} element={children} />
-  ) : (
-    <Navigate to={redirectTo} />
-  );
+import { Outlet, Navigate } from "react-router-dom";
+const getCookie = (name) => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop().split(";").shift();
 };
+
+const ProtectedRoute = () => {
+  const token = getCookie("token");
+console.log(token)
+  return token ? <Outlet /> : <Navigate to="/" />;
+};
+
 
 export default ProtectedRoute;

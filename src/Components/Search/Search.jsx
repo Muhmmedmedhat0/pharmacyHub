@@ -32,7 +32,7 @@ const Search = (props) => {
           throw new Error('Failed to fetch data');
         }
         const responseData = await response.json();
-        console.log('Response from API:', responseData); // Log raw response data
+        // console.log('Response from API:', responseData); // Log raw response data
         const ProductData = responseData.data.map((item) => ({
           idProduct: item.id,
           nameProduct: item.name,

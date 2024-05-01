@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import Helmet from "../../Components/Helmet/Helmet";
 import { Row, Col, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../Firebase.config";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import { auth } from "../../Firebase.config";
 import { toast } from "react-toastify";
 import "../../css/LogIn.css";
 
@@ -18,13 +18,30 @@ const LogIn = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      console.log(user);
+      // Call your API endpoint to authenticate user
+      const response = await fetch("http://e-pharmacy.runasp.net/api/Account/Login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to login");
+      }
+
+      const data = await response.json();
+
+      // Set token in cookies
+      document.cookie = `token=${data.token}`;
+
+      // Display success toast
+      toast.success("Logged in successfully");
+
       // Redirect to home page after successful login
       navigate(linkCheck);
     } catch (error) {
@@ -53,6 +70,7 @@ const LogIn = () => {
                         paddingLeft: "20px",
                       }}
                       type="email"
+                      autoComplete="email"
                       placeholder="Enter Your Email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -66,6 +84,7 @@ const LogIn = () => {
                         paddingLeft: "20px",
                       }}
                       type="password"
+                      autoComplete="current-password"
                       placeholder="Enter Your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}

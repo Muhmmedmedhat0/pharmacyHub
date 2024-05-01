@@ -39,7 +39,7 @@ const SignUp = () => {
         navigate('/login');
       } else {
         const errorData = await response.json();
-        console.log(errorData[0].description);
+        // console.log(errorData[0].description);
         toast.error(errorData[0].description);
         setLoading(false);
       }

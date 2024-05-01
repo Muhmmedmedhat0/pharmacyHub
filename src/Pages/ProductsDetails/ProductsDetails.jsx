@@ -33,7 +33,7 @@ const ProductDetail = () => {
         const data = await response.json();
         setProduct(data);
         setLoading(false);
-        console.log("Product fetched successfully:", data);
+        // console.log("Product fetched successfully:", data);
       } catch (error) {
         console.error("Error fetching product:", error);
         setLoading(false);
