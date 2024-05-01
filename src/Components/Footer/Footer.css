@@ -1,0 +1,132 @@
+/* FOOTER GLOBAL STYLE  */
+a {
+  text-decoration: none !important;
+}
+/* GLOBAL STYLE (COLUMN) */
+
+#footer-row #first-col img {
+  max-width: 185px;
+}
+
+#footer-row #third-col h3 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 32.86px;
+}
+
+/* START TOP FOOTER */
+#footer {
+  background-color: #5b9b6e;
+  color: #f7f7f7;
+  padding: 15px;
+  overflow: hidden;
+}
+#footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+#footer-row #first-col,
+#third-col,
+#last-col {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+#footer-row #first-col a,
+#third-col a,
+#last-col a {
+  color: #f7f7f7;
+  font-size: 16px;
+  line-height: 22.75px;
+  letter-spacing: 2%;
+  font-weight: 500;
+}
+#footer-row #first-col a:hover,
+#third-col a:hover,
+#last-col a:hover {
+  color: #00571a !important;
+}
+
+#footer-row #last-col div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* END TOP FOOTER */
+
+.divider {
+  border-bottom: 2px solid #4142414a;
+}
+
+/* START CENTER FOOTER */
+#footer-row-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+#footer-row-bottom div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 150px;
+}
+
+#footer-row-bottom div span {
+  color: #393636;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+#footer-row-bottom div span p {
+  color: #f7f7f7;
+  font-size: 16px;
+  line-height: 22.75px;
+  letter-spacing: 2%;
+  font-weight: 500;
+}
+
+#footer-row-bottom div p:hover {
+  color: #00571a;
+}
+/* END CENTER FOOTER */
+
+/* FOOTER COPYRIGHT */
+
+.footer__copyRight {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.footer__copyRight p {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.footer__copyRight span {
+  color: #000000 !important;
+  font-weight: bold;
+}
+
+/* MOBILE */
+@media only screen and (max-width: 992px) {
+  #footer-row {
+    gap: 50px;
+  }
+  #footer-row #first-col,
+  #third-col a:last-child {
+    padding-bottom: 20px;
+  }
+
+  #footer-row-bottom div {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+}
