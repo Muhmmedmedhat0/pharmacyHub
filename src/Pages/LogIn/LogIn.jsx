@@ -35,9 +35,9 @@ const LogIn = () => {
       }
 
       const data = await response.json();
-
+console.log(data)
       // Set token in cookies
-      document.cookie = `token=${data.token}`;
+      document.cookie = `id=${data.id}`;
 
       // Display success toast
       toast.success("Logged in successfully");

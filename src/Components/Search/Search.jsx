@@ -4,7 +4,7 @@ import { Prescription, Upload } from '../../Assets/img/index';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { useDispatch } from 'react-redux';
-import { addItem } from '../../Redux/Slice/CartSlice';
+import { addItemToCart } from '../../Redux/Slice/CartSlice';
 import '../../css/Cares.css';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -61,7 +61,7 @@ const Search = (props) => {
 
   const addToCart = (product) => {
     dispatch(
-      addItem({
+      addItemToCart({
         id: product.idProduct,
         productName: product.nameProduct,
         image: product.imgProduct,
