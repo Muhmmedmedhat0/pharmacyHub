@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import EquipmentsProduct from "./EquipmentsProduct";
 import { Row, Col } from "react-bootstrap";
 import Helmet from "../../Components/Helmet/Helmet";
-const EquipmentsView = (props) => {
+const EquipmentsView = (product) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 12; // Number of products per page
 
@@ -11,7 +11,7 @@ const EquipmentsView = (props) => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   // Slice the products array to get the products for the current page
-  const currentProducts = props.myProduct.slice(
+  const currentProducts = product.myProduct.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
@@ -22,23 +22,23 @@ const EquipmentsView = (props) => {
   };
 
   // Generate product items for the current page
-  const productItems = currentProducts.map((prod) => {
+  const productItems = currentProducts.map((product) => {
     return (
       <EquipmentsProduct
-        key={prod.idProduct} // Use idProduct as the unique key
-        id={prod.idProduct}
-        image={prod.imgProduct}
-        productName={prod.nameProduct}
-        productID={prod.idProduct}
-        pharmacy={prod.pharmaciesType}
-        prices={prod.priceProduct}
-        quantities={prod.quantityProduct}
+      key={product.id} // Use idProduct as the unique key
+      id={product.id}
+      name={product.name}
+      price={product.price}
+      pictureUrl={product.pictureUrl}
+      category={product.category}
+      pharmacies={product.pharmacies}
+      quantity={product.quantity}
       />
     );
   });
 
   // Calculate total number of pages
-  const totalPages = Math.ceil(props.myProduct.length / itemsPerPage);
+  const totalPages = Math.ceil(product.myProduct.length / itemsPerPage);
 
   // Generate pagination buttons
   const paginationButtons = [];

@@ -5,23 +5,24 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import '../../css/Cares.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addItem } from '../../Redux/Slice/CartSlice';
+import { addItemToCart } from '../../Redux/Slice/CartSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StarsCustom from '../../Components/StarsCustom/StarsCustom';
 
-const CaresProduct = (props) => {
+const CaresProduct = (product) => {
   const dispatch = useDispatch();
-
+console.log(product);
   const addToCart = () => {
     dispatch(
-      addItem({
-        id: props.id,
-        productName: props.productName,
-        image: props.image,
-        price: props.prices,
-        quantities: props.quantities,
-        pharmacy: props.pharmacy,
+      addItemToCart({
+        id: product.id,
+          name: product.name,
+          price: product.price,
+          pictureUrl: product.pictureUrl,
+          category: product.category,
+          pharmacies: product.pharmacies,
+          quantity: product.quantity,
       }),
     );
     toast.success('Product added Successfully');
@@ -59,19 +60,19 @@ const CaresProduct = (props) => {
                 <div className="img">
                   <img
                     whileHover={{ scale: 1.1 }}
-                    src={props.image}
+                    src={product.pictureUrl}
                     alt="CaresImage"
                     className="cardImage"
                   />
                 </div>
                 <div className="divider"></div>
-                <h3>{props.productName}</h3>
+                <h3>{product.name}</h3>
 
                 <div className="text">
-                  <p className="text__one">{props.prices} EGP</p>
+                  <p className="text__one">{product.price} EGP</p>
                   <p className="text__two">
                     <span className="text__two__span">
-                      {Math.ceil(props.prices - props.prices * 0.3)}{" "}
+                      {Math.ceil(product.price - product.price * 0.3)}{" "}
                       <del>30%</del>
                     </span>
                   </p>
@@ -86,14 +87,14 @@ const CaresProduct = (props) => {
                 </div>
                 <h4 className="text__three">Available in:</h4>
                 <div className="flex items-center h-7 w-full">
-                  {props.pharmacy?.map((pharmacy, index) => (
+                  {product.pharmacies?.map((pharmacy, index) => (
                     <span key={index} className="text-sm text-center">
                       ⚕{pharmacy}
                     </span>
                   ))}
                 </div>
                 {/* Add the button to toggle details */}
-                <Link to={`/product/${props.id}`}>
+                <Link to={`/product/${product.id}`}>
                   <button
                     whileHover={{ scale: 1.1 }}
                     onClick={toggleDetails}

@@ -32,14 +32,15 @@ const Search = (props) => {
           throw new Error('Failed to fetch data');
         }
         const responseData = await response.json();
-        // console.log('Response from API:', responseData); // Log raw response data
-        const ProductData = responseData.data.map((item) => ({
-          idProduct: item.id,
-          nameProduct: item.name,
-          imgProduct: item.pictureUrl,
-          pharmaciesType: item.pharmacies,
-          priceProduct: item.price,
-          quantityProduct: item.quantity,
+        console.log('Response from API:', responseData); // Log raw response data
+        const ProductData = responseData.data.map((product) => ({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          pictureUrl: product.pictureUrl,
+          category: product.category,
+          pharmacies: product.pharmacies,
+          quantity: product.quantity,
         }));
         setProducts(ProductData);
       } catch (error) {
@@ -60,14 +61,15 @@ const Search = (props) => {
   };
 
   const addToCart = (product) => {
+    console.log(product);
     dispatch(
       addItemToCart({
-        id: product.idProduct,
-        productName: product.nameProduct,
-        image: product.imgProduct,
-        price: product.priceProduct,
-        quantities: product.quantityProduct,
-        pharmacy: product.pharmaciesType,
+        id: product.id,
+        name: product.name,
+        pictureUrl: product.pictureUrl,
+        category: product.category,
+        price: product.price,
+        quantity: product.quantityProduct,
       }),
     );
     toast.success('Product added Successfully');
@@ -106,7 +108,7 @@ const Search = (props) => {
       {products.length > 0 && (
         <Row style={{ marginTop: '50px' }}>
           {products.map((product) => (
-            <Col key={product.idProduct} className="mb-4">
+            <Col key={product.id} className="mb-4">
               <Card style={{ height: '550px', width: '18rem' }} id="card-one">
                 <div className="card-body">
                   <div className="icon">
@@ -119,19 +121,19 @@ const Search = (props) => {
                   <div className="img">
                     <img
                       whileHover={{ scale: 1.1 }}
-                      src={product.imgProduct}
+                      src={product.pictureUrl}
                       alt="CaresImage"
                       className="cardImage"
                     />
                   </div>
                   <div className="divider"></div>
-                  <h3>{product.nameProduct}</h3>
+                  <h3>{product.name}</h3>
 
                   <div className="text">
-                    <p className="text__one">{product.priceProduct} EGP</p>
+                    <p className="text__one">{product.price} EGP</p>
                     <p className="text__two">
                       <span className="text__two__span">
-                        {product.priceProduct - product.priceProduct * 0.3}{' '}
+                        {product.price - product.price * 0.3}{' '}
                         <del>30%</del>
                       </span>
                     </p>
@@ -146,13 +148,13 @@ const Search = (props) => {
                   </div>
                   <h4 className="text__three">Available in:</h4>
                   <div className="available__pharmacy flex items-center h-7 w-full">
-                    {product.pharmaciesType?.map((pharmacy, index) => (
+                    {product.pharmacies?.map((pharmacy, index) => (
                       <span className="text-sm text-center" key={index}>
                         ⚕ {pharmacy}
                       </span>
                     ))}
                   </div>
-                  <Link to={`/product/${product.idProduct}`}>
+                  <Link to={`/product/${product.id}`}>
                     <button
                       whileHover={{ scale: 1.1 }}
                       onClick={toggleDetails}

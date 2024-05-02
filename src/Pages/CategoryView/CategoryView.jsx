@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Search from "../../Components/Search/Search";
+// import Search from "../../Components/Search/Search";
 import { Fragment } from "react";
 import { Row } from "react-bootstrap";
 import "../../css/Cares.css";
@@ -17,14 +17,15 @@ const CategoryView = ({ categoryId, categoryName, ViewComponent }) => {
     );
     const Product = await response.json();
     // console.log(Product.data);
-    const ProductData = Product.data.map((item) => {
+    const ProductData = Product.data.map((product) => {
       return {
-        idProduct: item.id,
-        nameProduct: item.name,
-        imgProduct: item.pictureUrl,
-        pharmaciesType: item.pharmacies,
-        priceProduct: item.price,
-        quantityProduct: item.quantity,
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        pictureUrl: product.pictureUrl,
+        category: product.category,
+        pharmacies: product.pharmacies,
+        quantity: product.quantity,
       };
     });
     setProducts(ProductData);

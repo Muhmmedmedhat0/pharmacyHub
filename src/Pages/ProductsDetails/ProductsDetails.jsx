@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../Redux/Slice/CartSlice";
+import { addItemToCart } from "../../Redux/Slice/CartSlice";
 import "./ProductDetail.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -45,7 +45,7 @@ const ProductDetail = () => {
 
   const addToCart = () => {
     dispatch(
-      addItem({
+      addItemToCart({
         id: product.id,
         productName: product.name,
         image: product.pictureUrl,

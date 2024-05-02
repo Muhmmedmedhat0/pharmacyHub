@@ -7,8 +7,7 @@ import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 
 const Billing = () => {
-  const totalAmount = useSelector((state) => state.cart.totalAmount);
-  const totalQuantity = useSelector((state) => state.cart.totalQuantity);
+  const totalAmount = useSelector((state) => state.cart.cart.totalAmount);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -54,9 +53,7 @@ const Billing = () => {
                 <h5>
                   Subtotal: <span>{totalAmount} £</span>
                 </h5>
-                <h5>
-                  Quantity: <span>{totalQuantity}</span>
-                </h5>
+                
               </motion.div>
               <FormGroup className="form__group">
                 <input

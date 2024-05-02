@@ -5,23 +5,23 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import '../../css/Cares.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { addItem } from '../../Redux/Slice/CartSlice';
+import { addItemToCart } from '../../Redux/Slice/CartSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StarsCustom from '../../Components/StarsCustom/StarsCustom';
 
-const MedicineProduct = (props) => {
+const MedicineProduct = (product) => {
   const dispatch = useDispatch();
 
   const addToCart = () => {
     dispatch(
-      addItem({
-        id: props.id,
-        productName: props.productName,
-        image: props.image,
-        price: props.prices,
-        quantities: props.quantities,
-        pharmacy: props.pharmacy,
+      addItemToCart({
+        id: product.id,
+        name: product.name,
+        pictureUrl: product.pictureUrl,
+        category: product.category,
+        price: product.price,
+        quantity: product.quantityProduct,
       }),
     );
     toast.success('Product added Successfully');
@@ -57,19 +57,19 @@ const MedicineProduct = (props) => {
                 <div className="img">
                   <img
                     whileHover={{ scale: 1.1 }}
-                    src={props.image}
+                    src={product.pictureUrl}
                     alt="CaresImage"
                     className="cardImage"
                   />
                 </div>
                 <div className="divider"></div>
-                <h3>{props.productName}</h3>
+                <h3>{product.name}</h3>
 
                 <div className="text">
-                  <p className="text__one">{props.prices} EGP</p>
+                <p className="text__one">{product.price} EGP</p>
                   <p className="text__two">
                     <span className="text__two__span">
-                      {Math.ceil(props.prices - props.prices * 0.3)}{' '}
+                    {product.price - product.price * 0.3}{' '}
                       <del>30%</del>
                     </span>
                   </p>
@@ -84,14 +84,14 @@ const MedicineProduct = (props) => {
                 </div>
                 <h4 className="text__three">Available in:</h4>
                 <div className="available__pharmacy h-7 w-full">
-                  {props.pharmacy?.map((pharmacy, index) => (
+                  {product.pharmacies?.map((pharmacy, index) => (
                     <span key={index} className="text-sm text-center">
                       ⚕ {pharmacy}
                     </span>
                   ))}
                 </div>
                 {/* Add the button to toggle details */}
-                {props.id === 25 ? (
+                {product.id === 25 ? (
                   <button
                     whileHover={{ scale: 1.1 }}
                     className="outOfStock"
@@ -99,7 +99,7 @@ const MedicineProduct = (props) => {
                     Out of Stock
                   </button>
                 ) : (
-                  <Link to={`/product/${props.id}`}>
+                  <Link to={`/product/${product.id}`}>
                     <button
                       whileHover={{ scale: 1.1 }}
                       onClick={toggleDetails}
