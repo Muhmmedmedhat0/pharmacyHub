@@ -1,52 +1,42 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 import './Header.css';
-import { logo } from '../../Assets/img/index'; // Importing logo image
-import userIcon from '../../Assets/img/user-icon-1024x1024-dtzturco.png'; // Importing user icon image
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Importing FontAwesomeIcon component
-import { useSelector } from 'react-redux'; // Importing useSelector hook from Redux
-import HeaderBottom from './HeaderBottom'; // Importing HeaderBottom component
-import { nav__link, nav__mobile__link } from '../../data/navData'; // Importing navigation data
-import { motion } from 'framer-motion'; // Importing motion for animations
-import { toast } from 'react-toastify'; // Importing toast notification library
-import CircleIndicator from '../CircleIndicator/CircleIndicator'; // Importing CircleIndicator component
-
-// import NavLink from 'react-bootstrap/NavLink';
+import { logo } from '../../Assets/img/index';
+import userIcon from '../../Assets/img/user-icon-1024x1024-dtzturco.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
+import HeaderBottom from './HeaderBottom';
+import { nav__link, nav__mobile__link } from '../../data/navData';
+import { toast } from 'react-toastify';
+import CircleIndicator from '../CircleIndicator/CircleIndicator';
 import { getCookie, deleteCookie } from '../../Routers/ProtectedRoute';
 
 const Header = () => {
-  const navigate = useNavigate(); // Initializing navigate function for programmatic navigation
-
+  const navigate = useNavigate();
   const currentUser = getCookie('id');
-  const [clicked, setClicked] = useState(false); // State for mobile navigation menu
+  const [clicked, setClicked] = useState(false);
 
+  // Subscribe to totalItems state
   const totalItems = useSelector((state) => state.cart.cart.totalItems);
 
-  // Function to handle user logout
   const logout = () => {
-    deleteCookie('id'); // Remove 'id' cookie
+    deleteCookie('id');
     toast.success('Logged out successfully');
     navigate('/home');
   };
-  
 
-  // Function to handle click event for mobile navigation menu
   const handleClick = () => {
-    setClicked(!clicked); // Toggling mobile navigation menu
+    setClicked(!clicked);
   };
 
   return (
     <>
-      {/* Progress Indicator */}
       <CircleIndicator />
-
-      {/* Start of header for big and medium screens */}
       <header className="main-header">
         <div className="header-content">
           <div className="left">
-            {/* Logo */}
             <NavLink to="/home">
-              <motion.img
+              <img
                 whileTap={{ scale: 1.1 }}
                 className="logo"
                 src={logo}
@@ -57,7 +47,6 @@ const Header = () => {
 
           <div className="user">
             <div className="right">
-              {/* Navigation Links */}
               <ul>
                 {nav__link.map((item, index) => (
                   <li key={index}>
@@ -79,18 +68,11 @@ const Header = () => {
                 ))}
               </ul>
             </div>
-            {/* User Actions */}
             {currentUser ? (
               <div className="user__actions">
                 <div className="actions">
-                  <span
-                    onClick={() => {
-                      logout();
-                    }}>
-                    logout
-                  </span>
+                  <span onClick={logout}>logout</span>
                 </div>
-                {/* User Details */}
                 <div className="user_details">
                   <img
                     src={
@@ -114,8 +96,6 @@ const Header = () => {
               </div>
             )}
           </div>
-
-          {/* Mobile Menu Toggle */}
           <div id="open" onClick={handleClick}>
             <i
               id="bar"
@@ -123,16 +103,10 @@ const Header = () => {
           </div>
         </div>
       </header>
-      {/* End of header for big and medium screens */}
-
-      {/* HeaderBottom Component */}
       <HeaderBottom />
-
-      {/* Mobile Navigation */}
       <div id="mobile-nav" className={clicked ? 'active' : ''}>
         <ul>
           <div className="user-mobile">
-            {/* User Image */}
             <div
               style={{
                 display: 'flex',
@@ -157,23 +131,18 @@ const Header = () => {
                 {currentUser ? currentUser.displayName : 'Guest'}
               </p>{' '}
             </div>
-            {/* User Actions */}
             {currentUser ? (
               <div className="user__actions">
                 <span onClick={logout}>Logout</span>
-                <i></i>
-                {/* Displaying user's display name */}
               </div>
             ) : (
               <div className="user__actions">
                 <Link to="/signUp">Register</Link>
                 <div className="px-1 font-bold">/</div>
                 <Link to="/login">Login</Link>
-                <div>{/* Links for sign up and login here */}</div>
               </div>
             )}
           </div>
-          {/* Rendering Navigation Links */}
           {nav__link.map((item) => (
             <li key={item.path}>
               <NavLink to={item.path}>
@@ -185,7 +154,6 @@ const Header = () => {
               </NavLink>
             </li>
           ))}
-          {/* Rendering additional mobile-only navigation links */}
           {nav__mobile__link.map((item) => (
             <li key={item.paths}>
               <NavLink to={item.paths}>
@@ -196,7 +164,6 @@ const Header = () => {
           ))}
         </ul>
       </div>
-      {/* End of Mobile Navigation */}
     </>
   );
 };

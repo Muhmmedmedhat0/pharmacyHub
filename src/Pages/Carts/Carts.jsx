@@ -20,12 +20,10 @@ const Carts = () => {
       await dispatch(removeItemFromCart(id));
       dispatch(fetchCart());
       toast.success(
-        `Prodct ${
-          cartItems.find((product) => product.id === id).name
-        } deleted from the cart`,
+        `Product deleted from the cart`,
       );
     },
-    [cartItems, dispatch],
+    [dispatch],
   );
 
   useEffect(() => {

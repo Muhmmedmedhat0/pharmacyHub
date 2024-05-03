@@ -27,7 +27,7 @@ export const fetchCart = createAsyncThunk(
       });
       const data = await response.json();
       const totalAmount = data.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-      const totalItems = data.items.reduce((acc, item) => acc + item.quantity, 0); // Calculate total items
+      const totalItems = data.items.length;
       data.totalAmount = totalAmount;
       data.totalItems = totalItems; // Assign totalItems to data
       return data;
@@ -37,7 +37,6 @@ export const fetchCart = createAsyncThunk(
   },
 );
 
-// Add item to cart
 export const addItemToCart = createAsyncThunk(
   'cart/addItemToCart',
   async (newItem, thunkAPI) => {
@@ -47,8 +46,9 @@ export const addItemToCart = createAsyncThunk(
       const currentCart = state.cart.cart;
 
       const updatedCart = {
-        id: currentCart.id,
+        ...currentCart,
         items: [...currentCart.items, newItem],
+        totalItems: currentCart.totalItems + 1, // Update totalItems
       };
 
       const response = await fetch(`${URL}`, {
@@ -64,20 +64,27 @@ export const addItemToCart = createAsyncThunk(
   },
 );
 
-// Remove item from cart
 export const removeItemFromCart = createAsyncThunk(
   'cart/removeItemFromCart',
   async (itemId, thunkAPI) => {
-    const { rejectWithValue } = thunkAPI;
+    const { rejectWithValue, getState } = thunkAPI;
     try {
+      const state = getState();
+      const currentCart = state.cart.cart;
+
+      const updatedCart = {
+        ...currentCart,
+        items: currentCart.items.filter(item => item.id !== itemId),
+        totalItems: currentCart.totalItems - 1, // Update totalItems
+      };
+
       const response = await fetch(`${URL}?id=${itemId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json; charset=utf-8' },
       });
 
       if (!response.ok) {
-        // Handle non-2xx responses
-        const errorMessage = await response.text(); // Get error message from response body
+        const errorMessage = await response.text();
         throw new Error(errorMessage);
       }
 
@@ -85,7 +92,6 @@ export const removeItemFromCart = createAsyncThunk(
       console.log(data);
       return data;
     } catch (error) {
-      // Return a serializable value (e.g., error message string)
       return rejectWithValue(error.message || 'An error occurred');
     }
   },
@@ -108,28 +114,12 @@ const cartSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addCase(addItemToCart.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(addItemToCart.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.cart = action.payload;
-      })
-      .addCase(addItemToCart.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      })
-      .addCase(removeItemFromCart.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(removeItemFromCart.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        state.cart = action.payload;
-      })
-      .addCase(removeItemFromCart.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload;
-      });
+      .addMatcher(
+        action => action.type.endsWith('/addItemToCart') || action.type.endsWith('/removeItemFromCart'),
+        (state, action) => {
+          state.cart = action.payload;
+        }
+      );
   },
 });
 
