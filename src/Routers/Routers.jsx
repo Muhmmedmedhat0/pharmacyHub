@@ -1,46 +1,42 @@
-import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
-import Header from "../Components/header/Header";
-import Footer from "../Components/Footer/Footer";
-import Cares from "../Pages/Cares/Cares";
-import Medicine from "../Pages/Medicine/Medicine";
-import Vitamins from "../Pages/Vitamins/Vitamins";
-import Equipments from "../Pages/Equipments/Equipments";
-import SignUp from "../Pages/SignUp/SignUp";
-import LogIn from "../Pages/LogIn/LogIn";
-import Home from "../Pages/Home/Home";
-import Carts from "../Pages/Carts/Carts";
-import About from "../Pages/About/About";
-import Contact from "../Pages/Contact/Contact";
-import Billing from "../Components/Billing/Billing";
-import ProductsDetails from "../Pages/ProductsDetails/ProductsDetails"; // New component for product details
-import Checkout from "../Pages/Checkout/Checkout";
-import Dashboard from "../admin/Dashboard";
-import AllProduct from "../admin/AllProduct";
-import OurTeam from "../Pages/OurTeam/OurTeam";
-import Profile from "../Pages/Profile/Profile";
-import Order from "../Pages/Order/Order";
-import CategoryView from "../Pages/CategoryView/CategoryView";
-import ProtectedRoute from "./ProtectedRoute";
+import Header from '../Components/header/Header';
+import Footer from '../Components/Footer/Footer';
+import Cares from '../Pages/Cares/Cares';
+import Medicine from '../Pages/Medicine/Medicine';
+import Vitamins from '../Pages/Vitamins/Vitamins';
+import Equipments from '../Pages/Equipments/Equipments';
+import SignUp from '../Pages/SignUp/SignUp';
+import LogIn from '../Pages/LogIn/LogIn';
+import Home from '../Pages/Home/Home';
+import Carts from '../Pages/Carts/Carts';
+import About from '../Pages/About/About';
+import Contact from '../Pages/Contact/Contact';
+import Billing from '../Components/Billing/Billing';
+import ProductsDetails from '../Pages/ProductsDetails/ProductsDetails'; // New component for product details
+import Checkout from '../Pages/Checkout/Checkout';
+import Dashboard from '../admin/Dashboard';
+import AllProduct from '../admin/AllProduct';
+import OurTeam from '../Pages/OurTeam/OurTeam';
+import Profile from '../Pages/Profile/Profile';
+import Order from '../Pages/Order/Order';
+import CategoryView from '../Pages/CategoryView/CategoryView';
+import ProtectedRoute from './ProtectedRoute';
 
 const Routers = () => {
   return (
     <Routes>
-      {/* Redirect from root to /home */}
+      {/* ProtectedRoute */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="carts" element={<Carts />} />
+        <Route path="billing" element={<Billing />} />
+        <Route path="/checkout" element={<Checkout />} />
+      </Route>
+      {/* public routes */}
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="home" element={<Home />} />
       <Route path="logIn" element={<LogIn />} />
-
-      <Route element={<ProtectedRoute />}>
-
-        <Route path="carts" element={<Carts />} />
-      <Route path="billing" element={<Billing />} />
-      <Route path="/checkout" element={<Checkout />} />
-        
-      </Route>
-      {/* <Route path="header" element={<Header />} />
-      <Route path="footer" element={<Footer />} /> */}
       <Route path="cares" element={<Cares />} />
       <Route path="medicine" element={<Medicine />} />
       <Route path="vitamins" element={<Vitamins />} />

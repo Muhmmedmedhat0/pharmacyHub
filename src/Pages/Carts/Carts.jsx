@@ -2,26 +2,30 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Helmet from '../../Components/Helmet/Helmet';
 import { Row, Card } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItemFromCart, fetchCart } from '../../Redux/Slice/CartSlice';
 import '../../css/Carts.css';
-import ReactModal from 'react-modal';
 import Stars from '../../Components/StarsCustom/StarsCustom';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Carts = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cart.items);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [userRating, setUserRating] = useState(0);
 
   const deleteProduct = useCallback(
     async (id) => {
       await dispatch(removeItemFromCart(id));
       dispatch(fetchCart());
+      toast.success(
+        `Prodct ${
+          cartItems.find((product) => product.id === id).name
+        } deleted from the cart`,
+      );
     },
-    [dispatch],
+    [cartItems, dispatch],
   );
 
   useEffect(() => {
@@ -50,22 +54,16 @@ const Carts = () => {
             </h2>
           ) : (
             <>
-              {cartItems.map((product) => (
+              {cartItems?.map((product) => (
                 <Card
                   style={{
                     height: '520px',
-                    width: '18rem',
+                    width: '15rem',
                   }}
                   id="card-one"
                   key={product.id}>
                   <div className="card-body">
-                    <div className="icon">
-                      <FontAwesomeIcon
-                        icon={faCartPlus}
-                        className="iconCarts"
-                        onClick={() => deleteProduct(product.id)}
-                      />
-                    </div>
+                   
                     <div className="img">
                       <img
                         src={product.pictureUrl}
