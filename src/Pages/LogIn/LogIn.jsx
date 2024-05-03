@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Helmet from "../../Components/Helmet/Helmet";
 import { Row, Col, Form, FormGroup } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-// import { signInWithEmailAndPassword } from "firebase/auth";
-// import { auth } from "../../Firebase.config";
+
 import { toast } from "react-toastify";
 import "../../css/LogIn.css";
 

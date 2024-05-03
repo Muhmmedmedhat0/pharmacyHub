@@ -8,8 +8,6 @@ import { useSelector } from 'react-redux'; // Importing useSelector hook from Re
 import HeaderBottom from './HeaderBottom'; // Importing HeaderBottom component
 import { nav__link, nav__mobile__link } from '../../data/navData'; // Importing navigation data
 import { motion } from 'framer-motion'; // Importing motion for animations
-import { signOut } from 'firebase/auth'; // Importing signOut function from firebase auth
-import { auth } from '../../Firebase.config'; // Importing firebase auth configuration
 import { toast } from 'react-toastify'; // Importing toast notification library
 import CircleIndicator from '../CircleIndicator/CircleIndicator'; // Importing CircleIndicator component
 
@@ -26,16 +24,11 @@ const Header = () => {
 
   // Function to handle user logout
   const logout = () => {
-    signOut(auth)
-      .then(() => {
-        deleteCookie('id'); // Remove 'id' cookie
-        toast.success('Logged out successfully');
-        navigate('/home');
-      })
-      .catch((error) => {
-        toast.error(error.message);
-      });
+    deleteCookie('id'); // Remove 'id' cookie
+    toast.success('Logged out successfully');
+    navigate('/home');
   };
+  
 
   // Function to handle click event for mobile navigation menu
   const handleClick = () => {
