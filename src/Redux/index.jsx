@@ -1,9 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import cart from "./Slice/CartSlice"; // Importing cartReducer instead of addItem
+import { configureStore } from '@reduxjs/toolkit';
+import cart from './Slice/CartSlice';
+import user from './Slice/user';
 
 const store = configureStore({
   reducer: {
-    cart, // Using cartReducer instead of CartSlice
+    cart,
+    user,
   },
 });
 

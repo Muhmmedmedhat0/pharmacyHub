@@ -1,59 +1,44 @@
-import React, { useState } from "react";
-import Helmet from "../../Components/Helmet/Helmet";
-import { Row, Col, Form, FormGroup } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-
-import { toast } from "react-toastify";
-import "../../css/LogIn.css";
+import React, { useState } from 'react';
+import Helmet from '../../Components/Helmet/Helmet';
+import { Row, Col, Form, FormGroup } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { logIn } from '../../Redux/Slice/user';
+import { toast } from 'react-toastify';
+import '../../css/LogIn.css';
 
 const LogIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const linkCheck = "/home"; // Corrected link value
+  const dispatch = useDispatch();
+  // const cartItems = useSelector((state) => state.cart.cart.items);
+  const userInfo = useSelector((state) => state.user.userInfo);
 
+console.log(userInfo);
   const signIn = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Call your API endpoint to authenticate user
-      const response = await fetch("http://e-pharmacy.runasp.net/api/Account/Login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: email,
-          password: password
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to login");
-      }
-
-      const data = await response.json();
-console.log(data)
-      // Set token in cookies
-      document.cookie = `id=${data.id}`;
+      // Dispatch login action with email and password
+      await dispatch(logIn({ email, password }));
 
       // Display success toast
-      toast.success("Logged in successfully");
+      toast.success('Logged in successfully');
 
       // Redirect to home page after successful login
-      navigate(linkCheck);
+      navigate('/home');
     } catch (error) {
       setLoading(false);
       // Show error message if login fails
-      toast.error("Failed to login");
+      toast.error('Failed to login');
     }
   };
-
   return (
     <Helmet title="LogIn">
       <div className="container">
-        <Row style={{ marginLeft: "auto", marginRight: "auto" }}>
+        <Row style={{ marginLeft: 'auto', marginRight: 'auto' }}>
           <Col lg="12" className="text-center">
             {loading ? (
               <h5 className="fw-bold">Loading.....</h5>
@@ -64,9 +49,9 @@ console.log(data)
                   <FormGroup className="form__groups">
                     <input
                       style={{
-                        marginBottom: "10px",
-                        width: "100%",
-                        paddingLeft: "20px",
+                        marginBottom: '10px',
+                        width: '100%',
+                        paddingLeft: '20px',
                       }}
                       type="email"
                       autoComplete="email"
@@ -78,9 +63,9 @@ console.log(data)
                   <FormGroup className="form__groups">
                     <input
                       style={{
-                        marginBottom: "10px",
-                        width: "100%",
-                        paddingLeft: "20px",
+                        marginBottom: '10px',
+                        width: '100%',
+                        paddingLeft: '20px',
                       }}
                       type="password"
                       autoComplete="current-password"
@@ -93,7 +78,7 @@ console.log(data)
                     Login
                   </button>
                   <p>
-                    Don't have an account?{" "}
+                    Don't have an account?{' '}
                     <Link to="/signUp">Create an account</Link>
                   </p>
                 </Form>

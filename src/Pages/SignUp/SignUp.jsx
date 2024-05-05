@@ -2,50 +2,44 @@ import React, { useState } from 'react';
 import { Row, Col, Form, FormGroup } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { register } from '../../Redux/Slice/user';
+import { useDispatch } from 'react-redux';
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [retypePassword, setRetypePassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [street, setStreet] = useState('');
+  const [city, setCity] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRetypePassword] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const sign = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(
-        'http://e-pharmacy.runasp.net/api/Account/Register',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: username,
-            email: email,
-            password: password,
-            repeatPassword: retypePassword,
-            phoneNumber: phoneNumber,
-          }),
-        },
+      await dispatch(
+        register({
+          name,
+          email,
+          phoneNumber,
+          street,
+          city,
+          password,
+          repeatPassword,
+        }),
       );
 
-      if (response.ok) {
-        toast.success('Signed up successfully');
-        navigate('/login');
-      } else {
-        const errorData = await response.json();
-        // console.log(errorData[0].description);
-        toast.error(errorData[0].description);
-        setLoading(false);
-      }
+      toast.success('Signed up successfully');
+      navigate('/login');
     } catch (error) {
-      toast.error('An error occurred while signing up');
       setLoading(false);
+      toast.error(error[0]);
+      navigate('/signUp');
     }
   };
 
@@ -62,24 +56,17 @@ const SignUp = () => {
               <h3 className="fw-bold">Register</h3>
               <FormGroup className="form__groups">
                 <input
-                  style={{
-                    marginBottom: '10px',
-                    width: '100%',
-                    paddingLeft: '20px',
-                  }}
+                name='name'
+                  className="form-control"
                   type="text"
                   placeholder="Name"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </FormGroup>
               <FormGroup className="form__groups">
                 <input
-                  style={{
-                    marginBottom: '10px',
-                    width: '100%',
-                    paddingLeft: '20px',
-                  }}
+                  className="form-control"
                   type="email"
                   placeholder="Enter Your Email"
                   value={email}
@@ -88,41 +75,51 @@ const SignUp = () => {
               </FormGroup>
               <FormGroup className="form__groups">
                 <input
-                  style={{
-                    marginBottom: '10px',
-                    width: '100%',
-                    paddingLeft: '20px',
-                  }}
-                  type="password"
-                  placeholder="Enter Your Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup className="form__groups">
-                <input
-                  style={{
-                    marginBottom: '10px',
-                    width: '100%',
-                    paddingLeft: '20px',
-                  }}
-                  type="password"
-                  placeholder="Retype Your Password"
-                  value={retypePassword}
-                  onChange={(e) => setRetypePassword(e.target.value)}
-                />
-              </FormGroup>
-              <FormGroup className="form__groups">
-                <input
-                  style={{
-                    marginBottom: '10px',
-                    width: '100%',
-                    paddingLeft: '20px',
-                  }}
+                  className="form-control"
                   type="tel"
                   placeholder="Phone Number"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup className="form__groups">
+                <input
+                  className="form-control"
+                  type="text"
+                  placeholder="Street"
+                  value={street}
+                  onChange={(e) => setStreet(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup className="form__groups">
+                <input
+                  className="form-control"
+                  value={city}
+                  type="text"
+                  name="city"
+                  placeholder="Enter city name"
+                  autoComplete="username"
+                  onChange={(e) => setCity(e.target.value)}
+                />
+              </FormGroup>
+              <FormGroup className="form__groups">
+                <input
+                  className="form-control"
+                  type="password"
+                  placeholder="Enter Your Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  // autoComplete="new-password" // add autoComplete attribute
+                />
+              </FormGroup>
+              <FormGroup className="form__groups">
+                <input
+                  className="form-control"
+                  type="password"
+                  placeholder="Retype Your Password"
+                  value={repeatPassword}
+                  onChange={(e) => setRetypePassword(e.target.value)}
+                  // autoComplete="new-password" // add autoComplete attribute
                 />
               </FormGroup>
               <button
