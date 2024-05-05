@@ -33,7 +33,7 @@
 #card-one {
   width: 400px;
   overflow: hidden;
-  padding: 10px 0;
+  /* padding: 10px 0; */
   /* background-color: #e5e0e021; */
   border: 1px solid #e5e0e0;
   box-shadow: 0px 0px 3px 3px #e4dfdf;

@@ -31,7 +31,6 @@ const MedicineProduct = (product) => {
   const toggleDetails = () => {
     setShowDetails(!showDetails);
     window.scrollTo(0, 0);
-
   };
   const [userRating, setUserRating] = useState(0);
 
@@ -45,8 +44,14 @@ const MedicineProduct = (product) => {
                 height: '550px',
                 width: '18rem',
               }}
+              className={`${
+                product.id === 25 && 'border border-red-500 bg-red-300'
+              }`}
               id="card-one">
-              <div className="card-body">
+              <div
+                className={`card-body ${
+                  product.id === 25 && 'border border-red-500 bg-red-300'
+                }`}>
                 <div className="icon">
                   <FontAwesomeIcon
                     icon={faCartPlus}
@@ -66,11 +71,10 @@ const MedicineProduct = (product) => {
                 <h3>{product.name}</h3>
 
                 <div className="text">
-                <p className="text__one">{product.price} EGP</p>
+                  <p className="text__one">{product.price} EGP</p>
                   <p className="text__two">
                     <span className="text__two__span">
-                    {product.price - product.price * 0.3}{' '}
-                      <del>30%</del>
+                      {product.price - product.price * 0.3} <del>30%</del>
                     </span>
                   </p>
                 </div>
@@ -82,22 +86,33 @@ const MedicineProduct = (product) => {
                     onChange={(rating) => setUserRating(rating)}
                   />
                 </div>
-                <h4 className="text__three">Available in:</h4>
-                <div className="available__pharmacy h-7 w-full">
-                  {product.pharmacies?.map((pharmacy, index) => (
-                    <span key={index} className="text-sm text-center">
-                      ⚕ {pharmacy}
-                    </span>
-                  ))}
-                </div>
+                <h4
+                  className={`text__three ${
+                    product.id === 25 && '!text-red-500'
+                  }`}>
+                  {product.id === 25 ? 'Out of Stock' : 'Available in:'}
+                </h4>
+
+                {product.id !== 25 && (
+                  <div className="available__pharmacy h-7 w-full">
+                    {product.pharmacies?.map((pharmacy, index) => (
+                      <span key={index} className="text-sm text-center">
+                        ⚕ {pharmacy}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
                 {/* Add the button to toggle details */}
                 {product.id === 25 ? (
-                  <button
-                    whileHover={{ scale: 1.1 }}
-                    className="outOfStock"
-                    disabled={true}>
-                    Out of Stock
-                  </button>
+                  <Link to={`/product/${product.id}`}>
+                    <button
+                      whileHover={{ scale: 1.1 }}
+                      className="showDetails bg-red-500 border-red-500"
+                      onClick={toggleDetails}>
+                      Out of Stock
+                    </button>
+                  </Link>
                 ) : (
                   <Link to={`/product/${product.id}`}>
                     <button
