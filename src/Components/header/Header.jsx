@@ -9,20 +9,24 @@ import HeaderBottom from './HeaderBottom';
 import { nav__link, nav__mobile__link } from '../../data/navData';
 import { toast } from 'react-toastify';
 import CircleIndicator from '../CircleIndicator/CircleIndicator';
-import { getCookie, deleteCookie } from '../../Routers/ProtectedRoute';
+import {deleteCookie } from '../../Routers/ProtectedRoute';
+// import { useSelector } from 'react-redux';
 
 const Header = () => {
   const navigate = useNavigate();
-  const currentUser = getCookie('id');
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  // const currentUser = getCookie('id');
   const [clicked, setClicked] = useState(false);
 
   // Subscribe to totalItems state
   const totalItems = useSelector((state) => state.cart.cart.totalItems);
 
   const logout = () => {
-    deleteCookie('id');
+    deleteCookie('token');
     toast.success('Logged out successfully');
     navigate('/home');
+    window.location.reload();
   };
 
   const handleClick = () => {
@@ -37,7 +41,7 @@ const Header = () => {
           <div className="left">
             <NavLink to="/home">
               <img
-                whileTap={{ scale: 1.1 }}
+                whiletap={{ scale: 1.1 }}
                 className="logo"
                 src={logo}
                 alt="logo"
@@ -68,7 +72,7 @@ const Header = () => {
                 ))}
               </ul>
             </div>
-            {currentUser ? (
+            {userInfo ? (
               <div className="user__actions">
                 <div className="actions">
                   <span onClick={logout}>logout</span>
@@ -76,14 +80,14 @@ const Header = () => {
                 <div className="user_details">
                   <img
                     src={
-                      currentUser && currentUser.photoURL
-                        ? currentUser.photoURL
+                      userInfo && userInfo?.photoURL
+                        ? userInfo?.photoURL
                         : userIcon
                     }
                     alt="userIcon"
                     className="user__image"
                   />
-                  <p>{currentUser.displayName}</p>
+                  <p>{userInfo.name}</p>
                 </div>
               </div>
             ) : (
@@ -117,9 +121,9 @@ const Header = () => {
               className="userImage">
               <img
                 src={
-                  currentUser && currentUser.photoURL
-                    ? currentUser.photoURL
-                    : userIcon
+                  userInfo && userInfo?.photoURL
+                  ? userInfo?.photoURL
+                  : userIcon
                 }
                 alt="userIcon"
               />
@@ -128,10 +132,10 @@ const Header = () => {
                   paddingTop: '15px',
                   color: '#f8f8f8',
                 }}>
-                {currentUser ? currentUser.displayName : 'Guest'}
+                {userInfo ? userInfo.name : 'Guest'}
               </p>{' '}
             </div>
-            {currentUser ? (
+            {userInfo ? (
               <div className="user__actions">
                 <span onClick={logout}>Logout</span>
               </div>
