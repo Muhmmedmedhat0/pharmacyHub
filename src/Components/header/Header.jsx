@@ -1,23 +1,25 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
-import './Header.css';
 import { logo } from '../../Assets/img/index';
 import userIcon from '../../Assets/img/user-icon-1024x1024-dtzturco.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import HeaderBottom from './HeaderBottom';
-import { nav__link, nav__mobile__link } from '../../data/navData';
 import { toast } from 'react-toastify';
 import CircleIndicator from '../CircleIndicator/CircleIndicator';
-import {deleteCookie } from '../../Routers/ProtectedRoute';
-// import { useSelector } from 'react-redux';
-
+import { deleteCookie } from '../../Routers/ProtectedRoute';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Badge from 'react-bootstrap/Badge';
+import Offcanvas from 'react-bootstrap/Offcanvas';
+import { faCartPlus, faHouse } from '@fortawesome/free-solid-svg-icons';
 const Header = () => {
   const navigate = useNavigate();
   const userInfo = useSelector((state) => state.user.userInfo);
 
   // const currentUser = getCookie('id');
-  const [clicked, setClicked] = useState(false);
 
   // Subscribe to totalItems state
   const totalItems = useSelector((state) => state.cart.cart.totalItems);
@@ -29,16 +31,12 @@ const Header = () => {
     window.location.reload();
   };
 
-  const handleClick = () => {
-    setClicked(!clicked);
-  };
-
   return (
     <>
       <CircleIndicator />
-      <header className="main-header">
-        <div className="header-content">
-          <div className="left">
+      {['md'].map((expand) => (
+        <Navbar key={expand} expand={expand} className="bg-[#5b9b6e]">
+          <Container fluid>
             <NavLink to="/home">
               <img
                 whiletap={{ scale: 1.1 }}
@@ -47,127 +45,119 @@ const Header = () => {
                 alt="logo"
               />
             </NavLink>
-          </div>
-
-          <div className="user">
-            <div className="right">
-              <ul>
-                {nav__link.map((item, index) => (
-                  <li key={index}>
-                    <NavLink
-                      to={item.path}
-                      className={(navClass) =>
-                        navClass.isActive ? 'nav__active' : ''
-                      }>
-                      <FontAwesomeIcon
-                        icon={item.imgNav}
-                        className="iconCarts"
-                      />
-                      {item.display}
-                      {item.path === 'carts' && (
-                        <span className="badge">{totalItems}</span>
-                      )}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            {userInfo ? (
-              <div className="user__actions">
-                <div className="actions">
-                  <span onClick={logout}>logout</span>
-                </div>
-                <div className="user_details">
+            <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
+            <Navbar.Offcanvas
+              id={`offcanvasNavbar-expand-${expand}`}
+              aria-labelledby={`offcanvasNavbarLabel-expand-${expand}`}
+              placement="end">
+              <Offcanvas.Header closeButton className="bg-[#5b9b6e]">
+                <Link to="/home">
                   <img
-                    src={
-                      userInfo && userInfo?.photoURL
-                        ? userInfo?.photoURL
-                        : userIcon
-                    }
-                    alt="userIcon"
-                    className="user__image"
+                    whiletap={{ scale: 1.1 }}
+                    className="logo"
+                    src={logo}
+                    alt="logo"
                   />
-                  <p>{userInfo.name}</p>
-                </div>
-              </div>
-            ) : (
-              <div className="user__actions">
-                <div className="actions">
-                  <Link to="/signUp">Register</Link>
-                  <div className="px-1 font-bold">/</div>
-                  <Link to="/login">Login</Link>
-                </div>
-              </div>
-            )}
-          </div>
-          <div id="open" onClick={handleClick}>
-            <i
-              id="bar"
-              className={clicked ? 'bx bxs-x-circle' : 'bx bx-menu'}></i>
-          </div>
-        </div>
-      </header>
+                </Link>
+              </Offcanvas.Header>
+              <Offcanvas.Body className="bg-[#5b9b6e]">
+                <Nav className="justify-content-end flex-grow-1 pe-3 items-center gap-5">
+                  <NavLink
+                    to="/home"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'text-gray-800 text-lg font-bold relative'
+                        : 'text-white text-lg font-thin relative'
+                    }>
+                    Home
+                    <FontAwesomeIcon
+                      icon={faHouse}
+                      className="text-white text-lg mx-1"
+                    />
+                  </NavLink>
+                  <NavLink
+                    to="/carts"
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'text-gray-800 text-lg font-bold'
+                        : 'text-white text-lg font-thin'
+                    }>
+                    Cart
+                    <FontAwesomeIcon
+                      icon={faCartPlus}
+                      className="text-white text-lg"
+                    />
+                    <Badge bg="danger" className="absolute top-3">
+                      {totalItems}
+                    </Badge>
+                  </NavLink>
+
+                  {userInfo ? (
+                    <>
+                      <NavDropdown
+                        className="text-white text-lg capitalize"
+                        align="end"
+                        title={userInfo?.name}
+                        id={`offcanvasNavbarDropdown-expand-${expand}`}>
+                        <div className="flex flex-col px-3 gap-2 text-white text-lg">
+                          <NavLink to="/profile" className="text-whit">
+                            Profile
+                          </NavLink>
+                          <NavLink to="/order" className="text-whit">
+                            Orders
+                          </NavLink>
+                        </div>
+
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="#" onClick={logout}>
+                          Logout
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                      <div className="">
+                        <img
+                          src={
+                            userInfo && userInfo?.photoURL
+                              ? userInfo?.photoURL
+                              : userIcon
+                          }
+                          alt="userIcon"
+                          className="w-10 h-10 rounded-full overflow-hidden"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex gap-2 text-white text-lg">
+                        <NavLink
+                          to="/signUp"
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'text-gray-800 text-lg font-bold'
+                              : 'text-white text-lg font-thin'
+                          }>
+                          Register
+                        </NavLink>
+                        <span>/</span>
+                        <NavLink
+                          to="/login"
+                          className={({ isActive }) =>
+                            isActive
+                              ? 'text-gray-800 text-lg font-bold'
+                              : 'text-white text-lg font-thin'
+                          }>
+                          Login
+                        </NavLink>
+                      </div>
+                    </>
+                  )}
+                </Nav>
+              </Offcanvas.Body>
+            </Navbar.Offcanvas>
+          </Container>
+        </Navbar>
+      ))}
+
       <HeaderBottom />
-      <div id="mobile-nav" className={clicked ? 'active' : ''}>
-        <ul>
-          <div className="user-mobile">
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px',
-              }}
-              className="userImage">
-              <img
-                src={
-                  userInfo && userInfo?.photoURL
-                  ? userInfo?.photoURL
-                  : userIcon
-                }
-                alt="userIcon"
-              />
-              <p
-                style={{
-                  paddingTop: '15px',
-                  color: '#f8f8f8',
-                }}>
-                {userInfo ? userInfo.name : 'Guest'}
-              </p>{' '}
-            </div>
-            {userInfo ? (
-              <div className="user__actions">
-                <span onClick={logout}>Logout</span>
-              </div>
-            ) : (
-              <div className="user__actions">
-                <Link to="/signUp">Register</Link>
-                <div className="px-1 font-bold">/</div>
-                <Link to="/login">Login</Link>
-              </div>
-            )}
-          </div>
-          {nav__link.map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path}>
-                <FontAwesomeIcon icon={item.imgNav} className="iconCarts" />
-                {item.display}
-                {item.path === 'carts' && (
-                  <span className="badge">{totalItems}</span>
-                )}
-              </NavLink>
-            </li>
-          ))}
-          {nav__mobile__link.map((item) => (
-            <li key={item.paths}>
-              <NavLink to={item.paths}>
-                <FontAwesomeIcon icon={item.iconImg} className="iconCarts" />
-                {item.displayText}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </div>
     </>
   );
 };
