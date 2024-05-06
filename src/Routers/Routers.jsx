@@ -32,6 +32,8 @@ const Routers = () => {
         <Route path="carts" element={<Carts />} />
         <Route path="billing" element={<Billing />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="order" element={<Order />} />
       </Route>
       {/* public routes */}
       <Route path="/" element={<Navigate to="/home" />} />
@@ -44,12 +46,10 @@ const Routers = () => {
       <Route path="signUp" element={<SignUp />} />
       <Route path="about" element={<About />} />
       <Route path="contact" element={<Contact />} />
-      <Route path="order" element={<Order />} />
       <Route path="product/:id" element={<ProductsDetails />} />
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="dashboard/allProduct" element={<AllProduct />} />
       <Route path="ourTeam" element={<OurTeam />} />
-      <Route path="profile" element={<Profile />} />
       <Route path="/category/:categoryId" component={CategoryView} />
       <Route path="/medicine/:id" element={<Medicine />} />
 
