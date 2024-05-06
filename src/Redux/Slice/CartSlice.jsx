@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCookie } from '../../Routers/ProtectedRoute';
 
 const URL = 'http://e-pharmacy.runasp.net/api/Basket';
-const USERID = getCookie('id');
 
 const initialState = {
   cart: {
@@ -20,6 +19,7 @@ export const fetchCart = createAsyncThunk(
   'cart/fetchCart',
   async (_, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
+    const USERID = getCookie('id');
     try {
       const response = await fetch(`${URL}?id=${USERID}`, {
         method: 'GET',
