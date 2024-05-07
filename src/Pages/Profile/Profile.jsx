@@ -40,10 +40,10 @@ const Profile = () => {
   return (
     <Container>
       <Row>
-        <Col md={3}>
+        <Col md={2}>
           <Menu />
         </Col>
-        <Col md={9} className="mb-12">
+        <Col md={10} className="mb-12">
           <div id="profile">
             <h2>Profile</h2>
             <Form onSubmit={handleUpdate}>

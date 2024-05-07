@@ -21,7 +21,7 @@ const MedicineProduct = (product) => {
         pictureUrl: product.pictureUrl,
         category: product.category,
         price: product.price,
-        quantity: product.quantityProduct,
+        quantity: 1,
       }),
     );
     toast.success('Product added Successfully');

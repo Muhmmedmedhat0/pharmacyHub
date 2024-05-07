@@ -87,9 +87,13 @@ const Header = () => {
                       icon={faCartPlus}
                       className="text-white text-lg"
                     />
-                    <Badge bg="danger" className="absolute top-3">
-                      {totalItems}
-                    </Badge>
+                    {totalItems > 0 && (
+                      <>
+                        <Badge bg="danger" className="absolute top-3">
+                          {totalItems}
+                        </Badge>
+                      </>
+                    )}
                   </NavLink>
 
                   {userInfo ? (

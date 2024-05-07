@@ -35,7 +35,7 @@ const MedicineAlternative = ({ id, category }) => {
           }
 
           const response = await fetch(
-            `http://e-pharmacy.runasp.net/api/product?CategoryId=1&ActiveIngredientId=${activeIngredientId}`,
+            `https://e-pharmacy.runasp.net/api/product?CategoryId=1&ActiveIngredientId=${activeIngredientId}`,
           );
           if (!response.ok) {
             throw new Error('Failed to fetch alternative medicines');

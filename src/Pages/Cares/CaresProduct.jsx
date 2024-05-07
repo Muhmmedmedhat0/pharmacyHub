@@ -22,7 +22,7 @@ console.log(product);
           pictureUrl: product.pictureUrl,
           category: product.category,
           pharmacies: product.pharmacies,
-          quantity: product.quantity,
+          quantity: 1,
       }),
     );
     toast.success('Product added Successfully');

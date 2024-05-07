@@ -13,7 +13,7 @@ const CategoryView = ({ categoryId, categoryName, ViewComponent }) => {
 
   async function fetchDataHandler() {
     const response = await fetch(
-      `http://e-pharmacy.runasp.net/api/product?CategoryId=${categoryId}`
+      `https://e-pharmacy.runasp.net/api/product?CategoryId=${categoryId}`
     );
     const Product = await response.json();
     // console.log(Product.data);

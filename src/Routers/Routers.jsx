@@ -29,12 +29,12 @@ const Routers = () => {
     <Routes>
       {/* ProtectedRoute */}
       <Route element={<ProtectedRoute />}>
+      </Route>
         <Route path="carts" element={<Carts />} />
         <Route path="billing" element={<Billing />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="profile" element={<Profile />} />
         <Route path="order" element={<Order />} />
-      </Route>
       {/* public routes */}
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="home" element={<Home />} />

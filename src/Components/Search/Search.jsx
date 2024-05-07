@@ -23,7 +23,7 @@ const Search = (props) => {
   useEffect(() => {
     const fetchDataHandler = async () => {
       try {
-        let apiUrl = 'http://e-pharmacy.runasp.net/api/product';
+        let apiUrl = 'https://e-pharmacy.runasp.net/api/product';
         if (searchQuery.trim() !== '') {
           apiUrl += `?search=${searchQuery}`;
         }
@@ -69,7 +69,7 @@ const Search = (props) => {
         pictureUrl: product.pictureUrl,
         category: product.category,
         price: product.price,
-        quantity: product.quantityProduct,
+        quantity: 1,
       }),
     );
     toast.success('Product added Successfully');
