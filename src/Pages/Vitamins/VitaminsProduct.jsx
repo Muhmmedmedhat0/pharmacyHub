@@ -9,22 +9,30 @@ import { addItemToCart } from '../../Redux/Slice/CartSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StarsCustom from '../../Components/StarsCustom/StarsCustom';
+import { getCookie } from '../../Routers/ProtectedRoute';
 
 const VitaminsProduct = (product) => {
   const dispatch = useDispatch();
+  const id = getCookie('id');
 
-  const addToCart = () => {
-    dispatch(
-      addItemToCart({
-        id: product.id,
-          name: product.name,
-          price: product.price,
-          pictureUrl: product.pictureUrl,
-          category: product.category,
-          pharmacies: product.pharmacies,
-          quantity: 1,
-      }),
-    );
+  const addToCart = async () => {
+    try {
+      await dispatch(
+        addItemToCart({
+          id: id,
+          items: [
+            {
+              id: product.id,
+              name: product.name,
+              pictureUrl: product.pictureUrl,
+              category: product.category,
+              price: product.price,
+              quantity: 1,
+            },
+          ],
+        }),
+      );
+    } catch (error) {}
     toast.success('Product added Successfully');
   };
 

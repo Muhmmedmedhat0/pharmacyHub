@@ -11,6 +11,7 @@ import StarsCustom from '../../Components/StarsCustom/StarsCustom';
 import Helmet from '../../Components/Helmet/Helmet';
 import MedicineAlternative from '../Medicine/MedicineAlternative';
 import MedicineSimilar from '../Medicine/MedicineSimilar';
+import { getCookie } from '../../Routers/ProtectedRoute';
 
 const ProductDetail = () => {
   const [userRating, setUserRating] = useState(0);
@@ -20,6 +21,7 @@ const ProductDetail = () => {
   const { id } = useParams(); // استخدم category المستلمة من useParams()
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
+  const UserId = getCookie('id');
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -43,17 +45,24 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  const addToCart = () => {
-    dispatch(
-      addItemToCart({
-        id: product.id,
-        productName: product.name,
-        image: product.pictureUrl,
-        price: product.price,
-        quantity: 1,
-        pharmacy: product.pharmacies,
-      }),
-    );
+  const addToCart = async () => {
+    try {
+      await dispatch(
+        addItemToCart({
+          id: UserId,
+          items: [
+            {
+              id: product.id,
+              name: product.name,
+              pictureUrl: product.pictureUrl,
+              category: product.category,
+              price: product.price,
+              quantity: 1,
+            },
+          ],
+        }),
+      );
+    } catch (error) {}
     toast.success('Product added Successfully');
   };
 

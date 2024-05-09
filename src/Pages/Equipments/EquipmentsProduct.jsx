@@ -9,22 +9,35 @@ import { addItemToCart } from '../../Redux/Slice/CartSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StarsCustom from '../../Components/StarsCustom/StarsCustom';
+import { getCookie } from '../../Routers/ProtectedRoute';
 
 const EquipmentsProduct = (product) => {
   const dispatch = useDispatch();
+  const id = getCookie('id');
 
-  const addToCart = () => {
-    dispatch(
-      addItemToCart({
-        id: product.id,
-        name: product.name,
-        pictureUrl: product.pictureUrl,
-        category: product.category,
-        price: product.price,
-        quantity: 1,
-      }),
-    );
-    toast.success('Product added Successfully');
+  const addToCart = async () => {
+    try{
+      await dispatch(
+        addItemToCart({
+          id: id,
+          items: [
+            {
+              id: product.id,
+          name: product.name,
+          pictureUrl: product.pictureUrl,
+          category: product.category,
+          price: product.price,
+          quantity: 1,
+            }
+          ]
+        }),
+      );
+
+      toast.success('Product added Successfully');
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      toast.error('Failed to add product');
+    }
   };
 
   const [showDetails, setShowDetails] = useState(false);

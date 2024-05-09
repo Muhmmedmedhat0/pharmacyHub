@@ -9,23 +9,34 @@ import { addItemToCart } from '../../Redux/Slice/CartSlice';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StarsCustom from '../../Components/StarsCustom/StarsCustom';
+import { getCookie } from '../../Routers/ProtectedRoute';
 
 const CaresProduct = (product) => {
   const dispatch = useDispatch();
-console.log(product);
-  const addToCart = () => {
-    dispatch(
-      addItemToCart({
-        id: product.id,
-          name: product.name,
-          price: product.price,
-          pictureUrl: product.pictureUrl,
-          category: product.category,
-          pharmacies: product.pharmacies,
-          quantity: 1,
-      }),
-    );
-    toast.success('Product added Successfully');
+  const id = getCookie('id');
+  const addToCart = async () => {
+    try {
+      await dispatch(
+        addItemToCart({
+          id: id,
+          items: [
+            {
+              id: product.id,
+              name: product.name,
+              price: product.price,
+              pictureUrl: product.pictureUrl,
+              category: product.category,
+              pharmacies: product.pharmacies,
+              quantity: 1,
+            },
+          ],
+        }),
+      );
+      toast.success('Product added Successfully');
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      toast.error('Failed to add product');
+    }
   };
 
   const [showDetails, setShowDetails] = useState(false);
@@ -44,11 +55,10 @@ console.log(product);
           <Col>
             <Card
               style={{
-                height: "550px",
-                width: '18rem'
+                height: '550px',
+                width: '18rem',
               }}
-              id="card-one"
-            >
+              id="card-one">
               <div className="card-body">
                 <div className="icon">
                   <FontAwesomeIcon
@@ -72,7 +82,7 @@ console.log(product);
                   <p className="text__one">{product.price} EGP</p>
                   <p className="text__two">
                     <span className="text__two__span">
-                      {Math.ceil(product.price - product.price * 0.3)}{" "}
+                      {Math.ceil(product.price - product.price * 0.3)}{' '}
                       <del>30%</del>
                     </span>
                   </p>
@@ -98,8 +108,7 @@ console.log(product);
                   <button
                     whileHover={{ scale: 1.1 }}
                     onClick={toggleDetails}
-                    className="showDetails"
-                  >
+                    className="showDetails">
                     Show Details
                   </button>
                 </Link>

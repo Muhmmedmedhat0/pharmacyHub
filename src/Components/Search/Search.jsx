@@ -11,12 +11,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import './Search.css';
 import StarsCustom from '../StarsCustom/StarsCustom';
 import { Link } from 'react-router-dom';
+import { getCookie } from '../../Routers/ProtectedRoute';
 
 const Search = (props) => {
   const [userRating, setUserRating] = useState(0);
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDetails, setShowDetails] = useState(false);
+  const id = getCookie('id');
 
   const dispatch = useDispatch();
 
@@ -47,7 +49,6 @@ const Search = (props) => {
         console.error('Error fetching data:', error);
       }
     };
-
     fetchDataHandler();
   }, [searchQuery]);
 
@@ -60,19 +61,29 @@ const Search = (props) => {
     window.scrollTo(0, 0);
   };
 
-  const addToCart = (product) => {
-    console.log(product);
-    dispatch(
-      addItemToCart({
-        id: product.id,
-        name: product.name,
-        pictureUrl: product.pictureUrl,
-        category: product.category,
-        price: product.price,
-        quantity: 1,
-      }),
-    );
-    toast.success('Product added Successfully');
+  const addToCart = async (product) => {
+    try {
+      await dispatch(
+        addItemToCart({
+          id: id,
+          items: [
+            {
+              id: product.id.toString(),
+              name: product.name,
+              pictureUrl: product.pictureUrl,
+              category: product.category,
+              price: product.price,
+              quantity: 1,
+            },
+          ],
+        }),
+      );
+
+      toast.success('Product added Successfully');
+    } catch (error) {
+      console.error('Error adding product to cart:', error);
+      toast.error('Failed to add product');
+    }
   };
 
   return (
@@ -133,8 +144,7 @@ const Search = (props) => {
                     <p className="text__one">{product.price} EGP</p>
                     <p className="text__two">
                       <span className="text__two__span">
-                        {product.price - product.price * 0.3}{' '}
-                        <del>30%</del>
+                        {product.price - product.price * 0.3} <del>30%</del>
                       </span>
                     </p>
                   </div>

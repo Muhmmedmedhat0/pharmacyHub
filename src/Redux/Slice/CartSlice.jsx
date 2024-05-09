@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCookie } from '../../Routers/ProtectedRoute';
+const token = getCookie('token');
 
 const URL = 'https://e-pharmacy.runasp.net/api/Basket';
 
@@ -23,7 +24,10 @@ export const fetchCart = createAsyncThunk(
     try {
       const response = await fetch(`${URL}?id=${USERID}`, {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}`, // Include token in the header
+        },
       });
       const data = await response.json();
       const totalAmount = data.items.reduce(
@@ -45,10 +49,12 @@ export const addItemToCart = createAsyncThunk(
   async (newItem, thunkAPI) => {
     const { rejectWithValue } = thunkAPI;
     try {
-      console.log(newItem);
       const response = await fetch(`${URL}`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}`, // Include token in the header
+        },
         body: JSON.stringify(newItem),
       });
       const data = await response.json();
@@ -66,7 +72,10 @@ export const removeItemFromCart = createAsyncThunk(
     try {
       const response = await fetch(`${URL}?id=${itemId}`, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}`, // Include token in the header
+        },
       });
 
       if (!response.ok) {
@@ -100,14 +109,35 @@ const cartSlice = createSlice({
         state.status = 'failed';
         state.error = action.payload;
       })
-      .addMatcher(
-        (action) =>
-          action.type.endsWith('/addItemToCart') ||
-          action.type.endsWith('/removeItemFromCart'),
-        (state, action) => {
-          state.cart = action.payload;
-        },
-      );
+      .addCase(addItemToCart.pending, (state, action) => {
+        state.status = 'loading';
+      });
+        builder
+      .addCase(addItemToCart.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.cart.items.push(action.payload);
+        state.cart.totalAmount += action.payload.price * action.payload.quantity;
+        state.cart.totalItems += 1;
+      })
+      .addCase(addItemToCart.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      })
+      .addCase(removeItemFromCart.pending, (state, action) => {
+        state.status = 'loading';
+      })
+      .addCase(removeItemFromCart.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.cart.items = state.cart.items.filter(
+          (item) => item.id !== action.payload.id,
+        );
+        state.cart.totalAmount -= action.payload.price * action.payload.quantity;
+        state.cart.totalItems -= 1;
+      })
+      .addCase(removeItemFromCart.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
   },
 });
 
