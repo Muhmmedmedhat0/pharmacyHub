@@ -118,7 +118,7 @@ const Profile = () => {
                 />
               </FormGroup>
 
-              <Button variant="primary" type="submit">
+              <Button variant="success" type="submit" >
                 Save
               </Button>
             </Form>

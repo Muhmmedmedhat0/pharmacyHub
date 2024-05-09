@@ -14,11 +14,11 @@ const Menu = () => {
         Profile
       </Link>
       <Link
-        to="/order"
+        to="/change-password"
         className={`p-2 rounded-l-md rounded-r-md text-black ${
-          pathname === '/order' ? 'bg-[#5b9b6e] text-white' : ''
+          pathname === '/change-password' ? 'bg-[#5b9b6e] text-white' : ''
         }`}>
-        My Orders
+        Change Password
       </Link>
     </nav>
   );

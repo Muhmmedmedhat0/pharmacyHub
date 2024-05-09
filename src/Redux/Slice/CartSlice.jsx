@@ -128,9 +128,9 @@ const cartSlice = createSlice({
       })
       .addCase(removeItemFromCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.cart.items = state.cart.items.filter(
-          (item) => item.id !== action.payload.id,
-        );
+        state.cart = action.payload;
+        state.cart.items.push(action.payload);
+        console.log(action.payload);
         state.cart.totalAmount -= action.payload.price * action.payload.quantity;
         state.cart.totalItems -= 1;
       })

@@ -69,6 +69,28 @@ export const updateUser = createAsyncThunk(
     }
   },
 );
+// change Password
+export const changePassword = createAsyncThunk(
+  'user/changePassword',
+  async (values, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    const token = getCookie('token'); // Retrieve the token
+    try {
+      const response = await fetch(`${URL}/ChangePassword`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+        body: JSON.stringify(values),
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      rejectWithValue(error);
+    }
+  },
+);
 
 const userSlice = createSlice({
   name: 'user',
@@ -117,6 +139,20 @@ const userSlice = createSlice({
         state.userInfo = action.payload;
       })
       .addCase(updateUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+      // change Password
+      builder
+      .addCase(changePassword.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });

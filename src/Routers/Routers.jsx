@@ -20,7 +20,7 @@ import Dashboard from '../admin/Dashboard';
 import AllProduct from '../admin/AllProduct';
 import OurTeam from '../Pages/OurTeam/OurTeam';
 import Profile from '../Pages/Profile/Profile';
-import Order from '../Pages/Order/Order';
+import Order from '../Pages/change-password/ChangePassword';
 import CategoryView from '../Pages/CategoryView/CategoryView';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -29,12 +29,12 @@ const Routers = () => {
     <Routes>
       {/* ProtectedRoute */}
       <Route element={<ProtectedRoute />}>
-      </Route>
-        <Route path="carts" element={<Carts />} />
-        <Route path="billing" element={<Billing />} />
+        <Route path="/carts" element={<Carts />} />
+        <Route path="/billing" element={<Billing />} />
         <Route path="/checkout" element={<Checkout />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="order" element={<Order />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/change-password" element={<Order />} />
+      </Route>
       {/* public routes */}
       <Route path="/" element={<Navigate to="/home" />} />
       <Route path="home" element={<Home />} />
