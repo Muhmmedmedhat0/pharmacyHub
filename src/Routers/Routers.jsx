@@ -23,6 +23,8 @@ import Profile from '../Pages/Profile/Profile';
 import ChangePassword from '../Pages/change-password/ChangePassword';
 import CategoryView from '../Pages/CategoryView/CategoryView';
 import ProtectedRoute from './ProtectedRoute';
+import Orders from '../Pages/Orders/Orders';
+
 
 const Routers = () => {
   return (
@@ -34,6 +36,8 @@ const Routers = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/orders" element={<Orders />} />
+
       </Route>
       {/* public routes */}
       <Route path="/" element={<Navigate to="/home" />} />
