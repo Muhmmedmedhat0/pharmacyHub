@@ -26,9 +26,11 @@ const Header = () => {
 
   const logout = () => {
     deleteCookie('token');
+    deleteCookie('id');
+    localStorage.removeItem('persist:root');
     toast.success('Logged out successfully');
-    navigate('/home');
     window.location.reload();
+    navigate('/');
   };
 
   return (
