@@ -20,7 +20,7 @@ import Dashboard from '../admin/Dashboard';
 import AllProduct from '../admin/AllProduct';
 import OurTeam from '../Pages/OurTeam/OurTeam';
 import Profile from '../Pages/Profile/Profile';
-import Order from '../Pages/change-password/ChangePassword';
+import ChangePassword from '../Pages/change-password/ChangePassword';
 import CategoryView from '../Pages/CategoryView/CategoryView';
 import ProtectedRoute from './ProtectedRoute';
 
@@ -33,7 +33,7 @@ const Routers = () => {
         <Route path="/billing" element={<Billing />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/change-password" element={<Order />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Route>
       {/* public routes */}
       <Route path="/" element={<Navigate to="/home" />} />
