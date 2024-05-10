@@ -103,7 +103,7 @@ const Carts = () => {
               {cartItems.length === 0 ? null : (
                 <>
                   <button className="buy__btn inline-block w-3/6 mx-auto">
-                    <Link to="/billing">Complete Order</Link>
+                    <Link to="/orders">Complete Order</Link>
                   </button>
                 </>
               )}

@@ -19,6 +19,7 @@ const Search = (props) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [showDetails, setShowDetails] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [imageUploaded, setImageUploaded] = useState(false); // State to track if image is uploaded
 
   const id = getCookie('id');
 
@@ -26,7 +27,9 @@ const Search = (props) => {
   // Function to handle image selection
   const handleImageSelect = (event) => {
     setSelectedImage(event.target.files[0]);
+    setImageUploaded(true);
   };
+  // console.log(selectedImage);
   // Function to upload image
   const uploadImage = async () => {
     try {
@@ -36,7 +39,7 @@ const Search = (props) => {
       formData.append('api_key', '924864744826299');
 
       const response = await fetch(
-        'https://api.cloudnairy.com/v1_1/djn5re91w/upload',
+        'https://api.cloudinary.com/v1_1/djn5re91w/upload',
         {
           method: 'POST',
           body: formData,
@@ -49,6 +52,7 @@ const Search = (props) => {
       }
 
       const responseData = await response.json();
+      // console.log(responseData.url);
       return responseData.url; // Return the uploaded image URL
     } catch (error) {
       console.error('Error uploading image:', error);
@@ -101,17 +105,18 @@ const Search = (props) => {
       if (selectedImage) {
         imageUrl = await uploadImage();
       }
-// console.log(imageUrl);
+      console.log();
+      console.log(imageUrl);
       await dispatch(
         addItemToCart({
           id: id,
           items: [
             {
-              id: product.id.toString(),
-              name: product.name,
+              id: product.id.toString() || Math.random().toString(),
+              name: product.name || Math.random().toString(),
               pictureUrl: imageUrl || product.pictureUrl, // Use uploaded image URL if available, else use default
-              category: product.category,
-              price: product.price,
+              category: product.category || Math.random().toString(),
+              price: product.price || Math.random().toString(),
               quantity: 1,
             },
           ],
@@ -124,7 +129,12 @@ const Search = (props) => {
       toast.error('Failed to add product');
     }
   };
-
+  useEffect(() => {
+    // Call addToCart only if imageUploaded is true and products array is not empty
+    if (imageUploaded && products.length > 0) {
+      addToCart(products[0]); // Call addToCart function with the first product in the array
+    }
+  }, [imageUploaded, products]);
   return (
     <Container id="searchPage">
       <Row className="d-flex align-items-center justify-between">

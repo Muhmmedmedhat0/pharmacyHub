@@ -1,7 +1,7 @@
-/* .container {
+/*   {
   margin-top: 60px;
 } */
-.container h6 {
+  h6 {
   font-size: 24px;
   font-weight: 600;
   border: 2px solid #13a03bd0;
@@ -13,12 +13,12 @@
   margin-top: 30px;
 }
 
-.container .billing__form .form__group input {
+  .billing__form .form__group input {
   width: 100% !important;
   padding-left: 20px !important;
 }
 
-/* .container .billing__form .form__group input::placeholder {
+/*   .billing__form .form__group input::placeholder {
   padding-left: 20px;
 } */
 

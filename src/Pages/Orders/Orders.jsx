@@ -1,65 +1,34 @@
-import React, { useState } from 'react';
-import { Row, Col, Form, FormGroup } from 'react-bootstrap';
+import React from 'react';
+import { Container, Row, Col, Form, FormGroup } from 'react-bootstrap';
 import Helmet from '../../Components/Helmet/Helmet';
 import './Orders.css';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { motion } from 'framer-motion';
+import Summery from './Summery';
 
 const Orders = () => {
-  const totalAmount = useSelector((state) => state.cart.cart.totalAmount);
-
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phoneNumber: '',
-    address: '',
-    city: '',
-    postalCode: '',
-    country: '',
-  });
-
-  const isFormFilled = () => {
-    return Object.values(formData).every((value) => value.trim() !== '');
-  };
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleCheckout = () => {
-    if (!isFormFilled()) {
-      alert('Please fill in all fields.'); // Replace with your modal or custom message
-    } else {
-      // Proceed with checkout
-    }
-  };
+  const userInfo = useSelector((state) => state.user.userInfo);
 
   return (
     <Helmet title="Billing">
-      <div className="container">
-        <Row className="items-center justify-center">
-          <Col lg="8" sm="12" className="">
+      <Container>
+        <Row className=" justify-center">
+          <Col lg="8" sm="12" className="px-4">
             <h6>Billing Information</h6>
-            <Form className="billing__form">
-              <motion.div
-                whileHover={{ scale: '1.1' }}
-                className="box__details">
-                <h5>
-                  Subtotal: <span>{totalAmount} £</span>
-                </h5>
-              </motion.div>
+
+            <Form className="billing__form !mt-0">
+              <div className="flex items-center justify-end">
+                <Link to="/profile" className="capitalize">
+                  want to Change Address ?
+                </Link>
+              </div>
               <FormGroup className="form__group">
                 <input
                   type="text"
                   placeholder="Enter Your Name"
                   name="name"
-                  value={formData.name}
-                  onChange={handleInputChange}
+                  disabled
+                  value={userInfo.name || 'please update your name'}
                 />
               </FormGroup>
               <FormGroup className="form__group">
@@ -67,8 +36,8 @@ const Orders = () => {
                   type="email"
                   placeholder="Enter Your Email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
+                  disabled
+                  value={userInfo.email}
                 />
               </FormGroup>
               <FormGroup className="form__group">
@@ -76,8 +45,10 @@ const Orders = () => {
                   type="number"
                   placeholder="Phone Number"
                   name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
+                  disabled
+                  value={
+                    userInfo.phoneNumber || 'please update your phone number'
+                  }
                 />
               </FormGroup>
               <FormGroup className="form__group">
@@ -85,63 +56,26 @@ const Orders = () => {
                   type="text"
                   placeholder="Street address"
                   name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
+                  disabled
+                  value={userInfo.street || 'please update your street address'}
                 />
               </FormGroup>
-              <FormGroup className="form__group">
+              <FormGroup className="form__group mb-10">
                 <input
                   type="text"
                   placeholder="City"
                   name="city"
-                  value={formData.city}
-                  onChange={handleInputChange}
+                  disabled
+                  value={userInfo.city || 'please update your city'}
                 />
               </FormGroup>
-              <FormGroup className="form__group">
-                <input
-                  type="text"
-                  placeholder="Postal code"
-                  name="postalCode"
-                  value={formData.postalCode}
-                  onChange={handleInputChange}
-                />
-              </FormGroup>
-              <FormGroup className="form__group">
-                <input
-                  type="text"
-                  placeholder="Country"
-                  name="country"
-                  value={formData.country}
-                  onChange={handleInputChange}
-                />
-              </FormGroup>
-              <div className="fill d-flex align-items-center">
-                <Link to="/checkout">
-                  <motion.button
-                    whileHover={{ scale: '1.1' }}
-                    className="buy__btn auth__btn"
-                    disabled={!isFormFilled()}
-                    onClick={handleCheckout}>
-                    Checkout
-                  </motion.button>
-                </Link>
-                {!isFormFilled() && (
-                  <span
-                    style={{
-                      marginLeft: '10px',
-                      color: 'red',
-                      pointerEvents: 'none',
-                      paddingBottom: '20px', // جعل العنصر غير قابل للنقر
-                    }}>
-                    Please fill in all fields
-                  </span>
-                )}
-              </div>
             </Form>
           </Col>
+          <Col md={4}>
+            <Summery />
+          </Col>
         </Row>
-      </div>
+      </Container>
     </Helmet>
   );
 };
