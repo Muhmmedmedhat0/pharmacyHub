@@ -16,7 +16,7 @@ const LogIn = () => {
   // const cartItems = useSelector((state) => state.cart.cart.items);
   const userInfo = useSelector((state) => state.user.userInfo);
 
-console.log(userInfo);
+// console.log(userInfo);
   const signIn = async (e) => {
     e.preventDefault();
     setLoading(true);

@@ -12,7 +12,7 @@ export const deleteCookie = (name) => {
 };
 const ProtectedRoute = () => {
   const Token = getCookie('token');
-  console.log(Token);
+  // console.log(Token);
   return Token ? <Outlet /> : <Navigate to="/" />;
 };
 

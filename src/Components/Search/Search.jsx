@@ -42,7 +42,7 @@ const Search = (props) => {
           body: formData,
         },
       );
-      console.log(response);
+      // console.log(response);
 
       if (!response.ok) {
         throw new Error('Failed to upload image');
@@ -68,7 +68,7 @@ const Search = (props) => {
           throw new Error('Failed to fetch data');
         }
         const responseData = await response.json();
-        console.log('Response from API:', responseData); // Log raw response data
+        // console.log('Response from API:', responseData); // Log raw response data
         const ProductData = responseData.data.map((product) => ({
           id: product.id,
           name: product.name,

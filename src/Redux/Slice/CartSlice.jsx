@@ -84,7 +84,7 @@ export const removeItemFromCart = createAsyncThunk(
       }
 
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       return data;
     } catch (error) {
       return rejectWithValue(error.message || 'An error occurred');
@@ -130,7 +130,7 @@ const cartSlice = createSlice({
         state.status = 'succeeded';
         state.cart = action.payload;
         state.cart.items.push(action.payload);
-        console.log(action.payload);
+        // console.log(action.payload);
         state.cart.totalAmount -= action.payload.price * action.payload.quantity;
         state.cart.totalItems -= 1;
       })
