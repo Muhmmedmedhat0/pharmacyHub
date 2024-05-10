@@ -71,24 +71,24 @@ const Header = () => {
                         ? 'text-gray-800 text-lg font-bold relative'
                         : 'text-white text-lg font-thin relative'
                     }>
-                    Home
                     <FontAwesomeIcon
                       icon={faHouse}
-                      className="text-white text-lg mx-1"
-                    />
+                      className="text-white text-lg mx-2"
+                      />
+                      Home
                   </NavLink>
                   <NavLink
                     to="/carts"
                     className={({ isActive }) =>
                       isActive
-                        ? 'text-gray-800 text-lg font-bold'
-                        : 'text-white text-lg font-thin'
+                        ? 'text-gray-800 text-lg font-bold '
+                        : 'text-white text-lg font-thin '
                     }>
-                    Cart
                     <FontAwesomeIcon
                       icon={faCartPlus}
-                      className="text-white text-lg"
-                    />
+                      className="text-white text-lg mx-2"
+                      />
+                      Cart
                     {totalItems > 0 && (
                       <>
                         <Badge bg="danger" className="absolute top-3">
