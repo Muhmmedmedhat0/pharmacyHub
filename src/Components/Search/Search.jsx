@@ -18,9 +18,43 @@ const Search = (props) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDetails, setShowDetails] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+
   const id = getCookie('id');
 
   const dispatch = useDispatch();
+  // Function to handle image selection
+  const handleImageSelect = (event) => {
+    setSelectedImage(event.target.files[0]);
+  };
+  // Function to upload image
+  const uploadImage = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedImage);
+      formData.append('upload_preset', 'xboh7dxo');
+      formData.append('api_key', '924864744826299');
+
+      const response = await fetch(
+        'https://api.cloudnairy.com/v1_1/djn5re91w/upload',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      );
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error('Failed to upload image');
+      }
+
+      const responseData = await response.json();
+      return responseData.url; // Return the uploaded image URL
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+  };
 
   useEffect(() => {
     const fetchDataHandler = async () => {
@@ -63,6 +97,11 @@ const Search = (props) => {
 
   const addToCart = async (product) => {
     try {
+      let imageUrl = null;
+      if (selectedImage) {
+        imageUrl = await uploadImage();
+      }
+// console.log(imageUrl);
       await dispatch(
         addItemToCart({
           id: id,
@@ -70,7 +109,7 @@ const Search = (props) => {
             {
               id: product.id.toString(),
               name: product.name,
-              pictureUrl: product.pictureUrl,
+              pictureUrl: imageUrl || product.pictureUrl, // Use uploaded image URL if available, else use default
               category: product.category,
               price: product.price,
               quantity: 1,
@@ -103,16 +142,34 @@ const Search = (props) => {
           </Form>
         </Col>
         <Col className="custom mt-5">
-          <div className="flex flex-col justify-center items-center">
+          <label
+            htmlFor="uploadInput"
+            className="flex flex-col justify-center items-center">
+            <input
+              type="file"
+              id="uploadInput"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleImageSelect}
+            />
             <img src={Prescription} alt="Prescription" width={50} height={50} />
             <p>By Prescription</p>
-          </div>
+          </label>
         </Col>
         <Col className="custom mt-5">
-          <div className="flex flex-col justify-center items-center">
+          <label
+            htmlFor="uploadInput"
+            className="flex flex-col justify-center items-center">
+            <input
+              type="file"
+              id="uploadInput"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={handleImageSelect}
+            />
             <img src={Upload} alt="Upload" width={50} height={50} />
             <p>Upload product</p>
-          </div>
+          </label>
         </Col>
       </Row>
 
